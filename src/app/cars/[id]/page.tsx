@@ -1,22 +1,38 @@
-import {SearchParams} from "next/dist/server/request/search-params";
-import {FC} from "react";
+"use client";
+import {useState, useEffect} from "react";
+import {deleteCar} from "@/server-actions/server-actions";
+const Car = ({searchParams}: { searchParams: Record<string, string> }) => {
+    const [car, setCar] = useState<{ id: string; brand: string; year: string; price: string } | null>(null);
 
-type Props = {
-    searchParams: Promise<SearchParams>
-}
+    useEffect(() => {
+        if (searchParams.data) {
+            try {
+                const obj = JSON.parse(searchParams.data);
+                setCar(obj);
+            } catch (error) {
+                console.error("Invalid JSON in searchParams:", error);
+            }
+        }
+    }, [searchParams]);
 
-const carPage:FC<Props> = async ({searchParams}) => {
-    const {data} = await searchParams;
-    let obj = null;
-    if (typeof data === 'string'){
-        obj = JSON.parse(data)
-    }
-
+    const handleDelete = async () => {
+        if (car) {
+            await deleteCar(car.id);
+            setCar(null);
+        }
+    };
     return (
         <div>
-            {obj.brand} {obj.year} {obj.price}
+            {car ? (
+                <>
+                    <p>{car.brand} {car.year} {car.price}</p>
+                    <button onClick={handleDelete}>Delete</button>
+                </>
+            ) : (
+                <p>No car found.</p>
+            )}
         </div>
     );
 };
 
-export default carPage;
+export default Car;
