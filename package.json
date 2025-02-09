@@ -12,7 +12,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "next": "15.1.6",
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "joi": "^17.13.3",
+    "@hookform/resolvers": "^3.10.0"
   },
   "devDependencies": {
     "typescript": "^5",

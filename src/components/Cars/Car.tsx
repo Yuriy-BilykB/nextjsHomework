@@ -20,7 +20,7 @@ const CarDelete = ({cars}: CarDeleteProps) => {
     const handleDelete = async () => {
         try {
             for (const id of deletedCars) {
-                await deleteCar(id);  // Функція для видалення через API
+                await deleteCar(id);
             }
             alert("Cars deleted successfully!");
 
